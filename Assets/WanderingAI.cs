@@ -6,6 +6,9 @@ public class WanderingAI : MonoBehaviour {
 
     [SerializeField]
     private GameObject fireballPrefab;
+
+    private GameObject target;
+
     private GameObject _fireball;
 
     public float speed = 3.0f;
@@ -14,12 +17,20 @@ public class WanderingAI : MonoBehaviour {
 
 	void Start () {
         _alive = true;
-
+        target = GameObject.FindGameObjectWithTag("Player");
     }
-	
-	
-	void Update () {
+
+    private void LateUpdate()
+    {
+        if (_alive)
+            transform.LookAt(target.transform);
+    }
+
+
+    void Update () {
         if (_alive) {
+            transform.LookAt(target.transform);
+            //transform.Translate(speed * Vector3.forward * Time.deltaTime);
             transform.Translate(0, 0, speed * Time.deltaTime);
             Ray ray = new Ray(transform.position, transform.forward);
             RaycastHit hit;
